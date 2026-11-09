@@ -1,12 +1,12 @@
 import sqlite3
 
-def conectar_banco(caminho):
+def conectar_banco(caminho="meu_banco.db"):
     conexao = sqlite3.connect(caminho)
     conexao.row_factory = sqlite3.Row
     return conexao
 
 
-def inicializar_banco(caminho):
+def inicializar_banco(caminho= "meu_bamco.db"):
     conexao = conectar_banco(caminho)
     cursor = conexao.cursor()
     cursor.execute('''
@@ -20,4 +20,5 @@ def inicializar_banco(caminho):
         )
     ''')
     conexao.commit()
+    cursor.close()
     conexao.close()

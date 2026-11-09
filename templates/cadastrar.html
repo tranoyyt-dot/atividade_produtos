@@ -1,0 +1,10 @@
+<h1>Cadastro de produtos</h1>
+<form action="/controllers/produto_controller.py" method =""post>
+    <input type="text" name="nome">
+    <input type="text" name="descricao">
+    <input type="number" name="preco">
+    <input type="number" name="quantidade">
+    <input type="text" name="categoria">
+    <button type="submit" >Enviar</button>
+    <a href="{{url_for('produto.listar')}}" class="botao segundario" >Ver listar</a>
+</form>

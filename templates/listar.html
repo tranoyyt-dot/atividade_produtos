@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<head>
+
+<body>
+    <h2>Gerenciamento de Produtos</h2>
+    <a href="{{url_for('produto.cadastrar')}}" class="bnt-cadastrar ">Cadastrar</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <thbody>
+            {%for produto in produtos}
+            <tr>
+                <td>{{ produto[0] }}</td> <!-- ID -->
+                <td>{{ produto[1] }}</td> <!-- Nome -->
+                <td>{{ produto[2] }}</td> <!-- Descrição -->
+                <td>R$ {{ produto[3] }}</td> <!-- Preço -->
+                <td>{{ produto[4] }}</td> <!-- Quantidade -->
+                <td>{{ produto[5] }}</td> <!-- Categoria -->
+                <td>
+                    <form action="{{ url_for('produto.apagar', id=produto[0]) }}" method="POST">
+                        <button type="submit" class="btn-apagar"
+                            onclik="return confirm('Tem certeza que  deseja apagar este produto')">Apagar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </thbody>
+    </table>
+</body>
+</head>
