@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Produtos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pagina.css') }}">
+</head>
+<body>
+    <main class="container">
+        <h1>Produtos do Almoxarifado</h1>
+
+        <div class="acoes">
+            <a href="{{ url_for('produto_bp.cadastrar') }}" class="botao">+ Novo produto</a>
+        </div>
+
+        {% if produtos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
+                    <th>Categoria</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in produtos %}
+                <tr id="produto-{{ p.id }}">
+                    <td>{{ p.id }}</td>
+                    <td>{{ p.nome }}</td>
+                    <td>{{ p.descricao or "-" }}</td>
+                    <td>R$ {{ "%.2f"|format(p.preco) }}</td>
+                    <td>{{ p.quantidade }}</td>
+                    <td>{{ p.categoria or "-" }}</td>
+                    <td>
+                        <button class="lixeira" title="Excluir" data-id="{{ p.id }}" onclick="apagarProduto(this.dataset.id)">🗑️</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="vazio">Nenhum produto cadastrado ainda.</p>
+        {% endif %}
+    </main>
+
+    <script>
+        async function apagarProduto(id) {
+            if (!confirm("Deseja realmente excluir este produto?")) return;
+
+            const resposta = await fetch(`/apagar/${id}`, { method: "DELETE" });
+
+            if (resposta.ok) {
+                document.getElementById(`produto-${id}`).remove();
+            } else {
+                alert("Não foi possível excluir o produto.");
+            }
+        }
+    </script>
+</body>
+</html>
